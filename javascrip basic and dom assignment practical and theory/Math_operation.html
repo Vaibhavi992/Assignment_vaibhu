@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Operation</title>
+</head>
+<style>
+    .main {
+        height: 353px;
+        width: 50%;
+        border: 2px solid black;
+    }
+
+    .num {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 600;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .both {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn {
+        margin-top: 30px;
+        height: 135px;
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .i1 {
+        width: 24%;
+        height: 55px;
+    }
+
+    .ans {
+        padding-left: 30px;
+    }
+
+    #answer {
+        color: blue;
+    }
+</style>
+
+<body>
+    <div class="main">
+        <h1>Math Operations</h1>
+        <div class="num">Enter 1st Number:<input type="text" id="t1"></div>
+        <div class="num">Enter 1st Number:<input type="text" id="t2"></div>
+        <div class="both">
+            <div class="btn">
+                <input type="button" value="+" class="i1" id="puls" onclick="plus()">
+                <input type="button" value="-" class="i1" onclick="minus()">
+                <input type="button" value="/" class="i1" onclick="div()">
+                <input type="button" value="%" class="i1" onclick="modulo()">
+                <input type="button" value="*" class="i1" onclick="mul()">
+            </div>
+            <div class="ans"> Answer is:<span id="answer"></span></div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+<script>
+
+    function plus() {
+        var text1 = parseInt(document.getElementById("t1").value);
+        var text2 = parseInt(document.getElementById("t2").value);
+        let sum = text1 + text2;
+
+        document.getElementById("answer").innerHTML = sum;
+    }
+    function minus() {
+        var text1 = parseInt(document.getElementById("t1").value);
+        var text2 = parseInt(document.getElementById("t2").value);
+        let sum = text1 - text2;
+
+        document.getElementById("answer").innerHTML = sum;
+    }
+    function mul() {
+        var text1 = parseInt(document.getElementById("t1").value);
+        var text2 = parseInt(document.getElementById("t2").value);
+        let sum = text1 * text2;
+
+        document.getElementById("answer").innerHTML = sum;
+    }
+    function div() {
+        var text1 = parseInt(document.getElementById("t1").value);
+        var text2 = parseInt(document.getElementById("t2").value);
+        let sum = text1 / text2;
+
+        document.getElementById("answer").innerHTML = sum;
+    }
+    function modulo() {
+        var text1 = parseInt(document.getElementById("t1").value);
+        var text2 = parseInt(document.getElementById("t2").value);
+        let sum = text1 % text2;
+
+        document.getElementById("answer").innerHTML = sum;
+    }
+</script>
