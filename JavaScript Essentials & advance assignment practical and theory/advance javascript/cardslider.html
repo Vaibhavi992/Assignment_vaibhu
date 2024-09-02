@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Sliding Cards</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            display: flex;
+            width: 80%;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .card {
+            width: 300px;
+            height: 400px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            margin-left: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card.active {
+            transform: scale(1.05);
+            z-index: 1;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 155px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-content {
+            padding: 10px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .card-button:hover {
+            background-color: #0056b3;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+            z-index: 10;
+            transition: opacity 0.3s ease;
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        .prev:hover, .next:hover {
+            opacity: 0.7;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+        }
+
+        .pagination-item {
+            width: 10px;
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination-item.active {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card active" data-index="0">
+            <div class="card-image" style="background-image: url('https://via.placeholder.com/300x200');"></div>
+            <div class="card-content">
+                <h2 class="card-title">David Dell</h2>
+                <p class="card-text">The lorem text the section contain contains header having open andclose functionality.</p>
+                <button class="card-button">View More</button>
+            </div>
+            <div class="card-footer"></div>
+        </div>
+        <div class="card" data-index="1">
+            <div class="card-image" style="background-image: url('https://via.placeholder.com/300x200');"></div>
+            <div class="card-content">
+                <h2 class="card-title">Rose Bush</h2>
+                <p class="card-text">The lorem text the section contain contains header having open andclose functionality.</p>
+                <button class="card-button">View More</button>
+            </div>
+            <div class="card-footer"></div>
+        </div>
+        <div class="card" data-index="2">
+            <div class="card-image" style="background-image: url('https://via.placeholder.com/300x200');"></div>
+            <div class="card-content">
+                <h2 class="card-title">Jones Gail</h2>
+                <p class="card-text">The lorem text the section contain contains header having open andclose functionality.</p>
+                <button class="card-button">View More</button>
+            </div>
+            <div class="card-footer"></div>
+        </div>
+    </div>
+    <div class="pagination"></div>
+
+    <script>
+        const cards = document.querySelectorAll('.card');
+        const pagination = document.querySelector('.pagination');
+        const prevBtn = document.createElement('span');
+        const nextBtn = document.createElement('span');
+
+        prevBtn.classList.add('prev');
+        prevBtn.textContent = '<';
+        nextBtn.classList.add('next');
+        nextBtn.textContent = '>';
+
+        document.body.appendChild(prevBtn);
+        document.body.appendChild(nextBtn);
+
+        let activeIndex = 0;
+
+        const updateCards = () => {
+            cards.forEach((card, index) => {
+                if (index === activeIndex) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+        };
+
+        const updatePagination = () => {
+            pagination.innerHTML = '';
+            cards.forEach((card, index) => {
+                const paginationItem = document.createElement('div');
+                paginationItem.classList.add('pagination-item');
+                paginationItem.dataset.index = index;
+                if (index === activeIndex) {
+                    paginationItem.classList.add('active');
+                }
+                pagination.appendChild(paginationItem);
+            });
+        };
+
+        const goToCard = (index) => {
+            activeIndex = index;
+            updateCards();
+            updatePagination();
+        };
+
+        prevBtn.addEventListener('click', () => {
+            goToCard((activeIndex - 1 + cards.length) % cards.length);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            goToCard((activeIndex + 1) % cards.length);
+        });
+
+        pagination.addEventListener('click', (event) => {
+            if (event.target.classList.contains('pagination-item')) {
+                goToCard(parseInt(event.target.dataset.index));
+            }
+        });
+
+        updateCards();
+        updatePagination();
+    </script>
+</body>
+</html>

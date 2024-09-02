@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container {
+            width: 100%;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script>
+        const container = document.getElementById('container');
+
+        let throttleTimeout = null;
+
+        container.addEventListener('mousemove', (event) => {
+            if (throttleTimeout) {
+                return;
+            }
+
+            throttleTimeout = setTimeout(() => {
+                throttleTimeout = null;
+                handleMouseMove(event);
+            }, 100); // throttle every 100ms
+        });
+
+        function handleMouseMove(event) {
+            const x = event.clientX;
+            const y = event.clientY;
+            container.textContent = `Mouse coordinates: (${x}, ${y})`;
+        }
+    </script>
+</body>
+
+</html>

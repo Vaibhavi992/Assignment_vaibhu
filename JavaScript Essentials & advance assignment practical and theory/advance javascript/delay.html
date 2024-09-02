@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Debouncing Example</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: rgba(20, 20, 228, 0.557);
+    }
+
+    .container {
+      margin: 20px auto;
+      width: 300px;
+    }
+
+    .input-box {
+      width: 100%;
+      height: 30px;
+      border: 1px solid #ccc;
+      padding: 5px;
+      font-size: 16px;
+    }
+
+    .result {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <p>Delay function result using debouncing</p>
+    <input type="text" class="input-box" id="input-field" placeholder="Type here...">
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const inputField = document.getElementById('input-field');
+    const result = document.getElementById('result');
+
+    let timeoutId;
+
+    function debounce(func, delay) {
+      return function() {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(func, delay);
+      };
+    }
+
+    function updateResult() {
+      result.textContent = `You typed: ${inputField.value}`;
+    }
+
+    inputField.addEventListener('input', debounce(updateResult, 500)); // 500ms delay
+  </script>
+
+</body>
+</html>

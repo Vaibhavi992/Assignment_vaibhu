@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<h2>HTML Table</h2>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Country</th>
+  </tr>
+  <tr>
+    <td>Alice</td>
+    <td>30</td>
+    <td>USA</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>25</td>
+    <td>UK</td>
+  </tr>
+  <tr>
+    <td>Charlie</td>
+    <td>35</td>
+    <td>Canada</td>
+  </tr>
+</table>
+
+<button onclick="exportToExcel()">Export to Excel</button>
+
+<script src="https://unpkg.com/xlsx@0.16.9/dist/xlsx.min.js"></script>
+<script>
+function exportToExcel() {
+  // Create a table element and set its contents to the HTML table
+  var table = document.createElement("table");
+  table.innerHTML = document.getElementsByTagName("table")[0].innerHTML;
+  
+  // Create a Workbook object
+  var wb = XLSX.utils.book_new();
+  
+  // Create a worksheet from the table
+  var ws = XLSX.utils.table_to_sheet(table);
+  
+  // Add the worksheet to the Workbook
+  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+  
+  // Generate the Excel file
+  XLSX.writeFile(wb, "table.xlsx");
+}
+</script>
+
+</body>
+</html>

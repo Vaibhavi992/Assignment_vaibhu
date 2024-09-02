@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Background Color</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #532187;
+            color: white;
+            transition: background-color 0.5s ease;
+        }
+
+        #colorBtn {
+            padding: 20px;
+            background-color: #64FFDA;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        #colorCode {
+            margin-top: 20px;
+            font-size: 24px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <button id="colorBtn">Change BG Color</button>
+        <p id="colorCode">#532187</p>
+    </div>
+
+    <script>
+        const button = document.getElementById('colorBtn');
+        const colorCode = document.getElementById('colorCode');
+        const colors = ['#532187', '#FF5733', '#33FF57', '#3357FF', '#FF33A1'];
+
+        button.addEventListener('click', function() {
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            document.body.style.backgroundColor = randomColor;
+            colorCode.textContent = randomColor;
+        });
+    </script>
+
+</body>
+</html>
