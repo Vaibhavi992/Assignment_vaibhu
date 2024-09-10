@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Random Quote Generator</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        #quoteContainer {
+            width: 50%;
+            margin: 40px auto;
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #quote {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #author {
+            font-size: 18px;
+            color: #666;
+        }
+
+        #newQuoteButton {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #newQuoteButton:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="quoteContainer">
+        <p id="quote"></p>
+        <p id="author"></p>
+        <button id="newQuoteButton">New Quote</button>
+    </div>
+
+    <script>
+        const quotes = [
+            {
+                text: "Never give up because you never know if the next try is going to be the one that works.",
+                author: "Mary Kay Ash"
+            },
+            {
+                text: "The only way to do great work is to love what you do.",
+                author: "Steve Jobs"
+            },
+            {
+                text: "Strive not to be a success, but rather to be of value.",
+                author: "Albert Einstein"
+            },
+            {
+                text: "The future belongs to those who believe in the beauty of their dreams.",
+                author: "Eleanor Roosevelt"
+            },
+            {
+                text: "Life is what happens when you're busy making other plans.",
+                author: "John Lennon"
+            },
+            // Add more quotes here...
+        ];
+
+        const quoteElement = document.getElementById("quote");
+        const authorElement = document.getElementById("author");
+        const newQuoteButton = document.getElementById("newQuoteButton");
+
+        function generateQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const randomQuote = quotes[randomIndex];
+
+            quoteElement.textContent = randomQuote.text;
+            authorElement.textContent = "- " + randomQuote.author;
+        }
+
+        newQuoteButton.addEventListener("click", generateQuote);
+
+        // Generate an initial quote on page load
+        generateQuote();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart Subtotal Calculation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .remove-btn {
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .remove-btn:hover {
+            background-color: #ff2a1a;
+        }
+
+        .total-row {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Shopping Cart</h2>
+
+    <table id="cartTable">
+        <thead>
+            <tr>
+                <th>Product Info</th>
+                <th>Quantity</th>
+                <th>Price (per unit)</th>
+                <th>Price (subtotal)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <img src="https://via.placeholder.com/50" alt="Fortuniata Window Hardware">
+                    Fortuniata Window Hardware - Decorative Holdbacks - Mocha
+                </td>
+                <td><input type="number" value="2" min="1" class="quantity"></td>
+                <td>$29.99</td>
+                <td class="subtotal">$59.98</td>
+                <td><button class="remove-btn">Remove</button></td>
+            </tr>
+            <tr>
+                <td>
+                    <img src="https://via.placeholder.com/50" alt="Woven Trellis Window Hardware">
+                    Woven Trellis Window Hardware - Clip Rings - Bronze
+                </td>
+                <td><input type="number" value="1" min="1" class="quantity"></td>
+                <td>$12.99</td>
+                <td class="subtotal">$12.99</td>
+                <td><button class="remove-btn">Remove</button></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td colspan="3">Total</td>
+                <td id="grandTotal">$72.97</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <script>
+        function calculateSubtotal() {
+            const rows = document.querySelectorAll('#cartTable tbody tr');
+            let total = 0;
+
+            rows.forEach(row => {
+                const quantity = row.querySelector('.quantity').value;
+                const pricePerUnit = parseFloat(row.cells[2].textContent.replace('$', ''));
+                const subtotal = quantity * pricePerUnit;
+
+                row.querySelector('.subtotal').textContent = `$${subtotal.toFixed(2)}`;
+                total += subtotal;
+            });
+
+            document.getElementById('grandTotal').textContent = `$${total.toFixed(2)}`;
+        }
+
+        document.querySelectorAll('.quantity').forEach(input => {
+            input.addEventListener('input', calculateSubtotal);
+        });
+
+        document.querySelectorAll('.remove-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                this.closest('tr').remove();
+                calculateSubtotal();
+            });
+        });
+
+        // Initial calculation
+        calculateSubtotal();
+    </script>
+
+</body>
+</html>

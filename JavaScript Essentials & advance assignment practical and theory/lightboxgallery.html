@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Lightbox Gallery</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .gallery-item {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .lightbox.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            max-width: 90%;
+            max-height: 90%;
+            overflow: auto;
+        }
+
+        .lightbox-image {
+            width: 100%;
+            height: auto;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        .lightbox-prev,
+        .lightbox-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .gallery-item {
+                width: 150px;
+                height: 150px;
+            }
+
+            .lightbox-content {
+                max-width: 95%;
+                max-height: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="gallery">
+        <div class="gallery-item" data-image="https://plus.unsplash.com/premium_photo-1683147722874-73c83b637a47?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Z2lybCUyMG5hdHVyZXxlbnwwfHwwfHx8MA%3D%3D" ">
+            <img src="https://plus.unsplash.com/premium_photo-1683147722874-73c83b637a47?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Z2lybCUyMG5hdHVyZXxlbnwwfHwwfHx8MA%3D%3D" alt="Image 1">
+        </div>
+        <div class="gallery-item" data-image="https://images.unsplash.com/photo-1658860518767-8b3552d63254?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGdpcmwlMjBuYXR1cmV8ZW58MHx8MHx8fDA%3D">
+            <img src="https://images.unsplash.com/photo-1658860518767-8b3552d63254?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGdpcmwlMjBuYXR1cmV8ZW58MHx8MHx8fDA%3D" alt="Image 2">
+        </div>
+        <div class="gallery-item" data-image="https://media.istockphoto.com/id/597952626/photo/little-girl-taking-photos-in-the-forest.webp?a=1&b=1&s=612x612&w=0&k=20&c=5UQNlNFN7DiFhWg8sZxDPHEnDKXdgpOjbulFnMPY87Y=">
+            <img src="https://media.istockphoto.com/id/597952626/photo/little-girl-taking-photos-in-the-forest.webp?a=1&b=1&s=612x612&w=0&k=20&c=5UQNlNFN7DiFhWg8sZxDPHEnDKXdgpOjbulFnMPY87Y=" alt="Image 3">
+        </div>
+        <div class="gallery-item" data-image="https://media.istockphoto.com/id/594044366/photo/childish-heart.webp?a=1&b=1&s=612x612&w=0&k=20&c=VUZN02C-2ePSCYGU6WlGN5nRyvpAOqSPS8pA4DsF73c=">
+            <img src="https://media.istockphoto.com/id/594044366/photo/childish-heart.webp?a=1&b=1&s=612x612&w=0&k=20&c=VUZN02C-2ePSCYGU6WlGN5nRyvpAOqSPS8pA4DsF73c=" alt="Image 4">
+        </div>
+        <div class="gallery-item" data-image="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bmF0dXJlfGVufDB8fDB8fHww">
+            <img src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bmF0dXJlfGVufDB8fDB8fHww" alt="Image 5">
+        </div>
+        <div class="gallery-item" data-image="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fG5hdHVyZXxlbnwwfHwwfHx8MA%3D%3D">
+            <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fG5hdHVyZXxlbnwwfHwwfHx8MA%3D%3D" alt="Image 6">
+        </div>
+    </div>
+
+    <div class="lightbox">
+        <div class="lightbox-content">
+            <span class="lightbox-close">&times;</span>
+            <img class="lightbox-image" src="" alt="">
+            <div class="lightbox-prev">&lt;</div>
+            <div class="lightbox-next">&gt;</div>
+        </div>
+    </div>
+
+    <script>
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const lightbox = document.querySelector('.lightbox');
+        const lightboxContent = document.querySelector('.lightbox-content');
+        const lightboxImage = document.querySelector('.lightbox-image');
+        const lightboxClose = document.querySelector('.lightbox-close');
+        const lightboxPrev = document.querySelector('.lightbox-prev');
+        const lightboxNext = document.querySelector('.lightbox-next');
+        let currentImageIndex = 0;
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentImageIndex = index;
+                showLightbox(index);
+            });
+        });
+
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.remove('show');
+        });
+
+        lightboxPrev.addEventListener('click', () => {
+            currentImageIndex--;
+            if (currentImageIndex < 0) {
+                currentImageIndex = galleryItems.length - 1;
+            }
+            showLightbox(currentImageIndex);
+        });
+
+        lightboxNext.addEventListener('click', () => {
+            currentImageIndex++;
+            if (currentImageIndex >= galleryItems.length) {
+                currentImageIndex = 0;
+            }
+            showLightbox(currentImageIndex);
+        });
+
+        function showLightbox(index) {
+            lightboxImage.src = galleryItems[index].dataset.image;
+            lightbox.classList.add('show');
+        }
+    </script>
+
+</body>
+</html>

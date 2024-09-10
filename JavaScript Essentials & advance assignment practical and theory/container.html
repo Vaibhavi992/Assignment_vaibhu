@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.container {
+  width: 50%;
+  height: 200px;
+  border: 1px dashed gray;
+  float: left;
+}
+
+.draggable {
+  width: 100px;
+  height: 50px;
+  background-color: dodgerblue;
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: move;
+  margin: 5px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div id="draggable1" class="draggable" draggable="true">Drag me 1</div>
+  <div id="draggable3" class="draggable" draggable="true">Drag me 3</div>
+</div>
+
+<div class="container">
+  <div id="draggable2" class="draggable" draggable="true">Drag me 2</div>
+</div>
+
+<script>
+  let draggable1 = document.getElementById("draggable1");
+  let draggable2 = document.getElementById("draggable2");
+  let draggable3 = document.getElementById("draggable3");
+
+  draggable1.addEventListener("dragstart", (event) => {
+    event.dataTransfer.setData("text", event.target.id);
+  });
+
+  draggable2.addEventListener("dragstart", (event) => {
+    event.dataTransfer.setData("text", event.target.id);
+  });
+
+  draggable3.addEventListener("dragstart", (event) => {
+    event.dataTransfer.setData("text", event.target.id);
+  });
+
+  let container1 = document.querySelector(".container:first-child");
+  let container2 = document.querySelector(".container:last-child");
+
+  container1.addEventListener("dragover", (event) => {
+    event.preventDefault();
+  });
+
+  container1.addEventListener("drop", (event) => {
+    event.preventDefault();
+    let data = event.dataTransfer.getData("text");
+    document.getElementById(data).style.position = "relative";
+    document.getElementById(data).style.left = event.clientX - 50 + "px";
+    document.getElementById(data).style.top = event.clientY - 25 + "px";
+  });
+
+  container2.addEventListener("dragover", (event) => {
+    event.preventDefault();
+  });
+
+  container2.addEventListener("drop", (event) => {
+    event.preventDefault();
+    let data = event.dataTransfer.getData("text");
+    document.getElementById(data).style.position = "relative";
+    document.getElementById(data).style.left = event.clientX - 50 + "px";
+    document.getElementById(data).style.top = event.clientY - 25 + "px";
+  });
+</script>
+
+</body>
+</html>
